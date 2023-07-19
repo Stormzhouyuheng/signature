@@ -48,4 +48,4 @@ npm run build
 
 ## 反馈、交流钉钉群
 
-![输入图片说明](1655290016051.jpg)
+![输入图片说明](https://gitee.com/newgateway/vtj/raw/master/dev/public/ding.jpg)
