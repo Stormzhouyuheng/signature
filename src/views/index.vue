@@ -1,6 +1,6 @@
 <template>
     <my-wrapper fit title="项目模板首页示例">
-        项目开始123
+        项目开始
     </my-wrapper>
 </template>
 
