@@ -1,9 +1,15 @@
 <template>
     <my-wrapper fit title="项目模板首页示例">
-        项目开始
+        <!-- 设计电子签章部分 -->
+        <CreateSealsMain></CreateSealsMain>
     </my-wrapper>
 </template>
 
 <script>
-    export default {}
+    import CreateSealsMain from './CreateSeals'
+    export default {
+        components: {
+            CreateSealsMain
+        }
+    }
 </script>
