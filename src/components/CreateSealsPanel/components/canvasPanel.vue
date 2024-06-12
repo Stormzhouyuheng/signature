@@ -106,7 +106,7 @@ export default {
             ctx.fill()
         },
         drawArcText(ctx, text, centerX, centerY, radius) {
-            ctx.font = 'bold 22px Arial'
+            ctx.font = 'bold 22px 宋体'
             ctx.textAlign = 'center'
             ctx.fillStyle = 'red'
 

@@ -7,7 +7,9 @@
                 </div>
             </el-col>
             <el-col :span="16">
-                <div class="operatePanel"></div>
+                <div class="operatePanel">
+                    <TabsPanel />
+                </div>
             </el-col>
             <el-col :span="8">
                 <div class="operatePanel">
@@ -20,12 +22,14 @@
 
 <script>
 import CanvasPanel from './components/canvasPanel.vue'
+import TabsPanel from './components/tabsPanel.vue'
 export default {
     data() {
         return {}
     },
     components: {
-        CanvasPanel
+        CanvasPanel,
+        TabsPanel
     }
 }
 </script>
@@ -56,5 +60,6 @@ export default {
     border-radius: 10px;
     border: 3px dashed orange;
     height: 50vh;
+    // overflow-y: auto;
 }
 </style>
