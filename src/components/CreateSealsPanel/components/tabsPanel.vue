@@ -2,31 +2,8 @@
     <div class="tabsPanelMain">
         <my-tabs :tabs="tabs" position="top" card border>
             <!-- <div v-for="(item, index) in tabs" :key="index">{{ item }}</div> -->
-            <!-- <ul>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul> -->
             <!-- <template v-slot="{ tab }">{{ tab.label }} 占位内容</template> -->
+            <my-select :options="options" @change="optionsChange"></my-select>
         </my-tabs>
     </div>
 </template>
@@ -45,7 +22,27 @@ export default {
                 { name: '内边线', label: '内边线' },
                 { name: '中心内容', label: '中心内容' },
                 { name: '防伪码', label: '防伪码' }
+            ],
+            options: [
+                {
+                    label: '160*160(默认大小)',
+                    value: 160
+                },
+                {
+                    label: '320*320(更清晰)',
+                    value: 320
+                },
+                {
+                    label: '480*480(更清晰)',
+                    value: 480
+                }
             ]
+        }
+    },
+    methods: {
+        optionsChange(data) {
+            console.log(data)
+            this.$emit('currentSize', data)
         }
     }
 }
@@ -61,8 +58,9 @@ export default {
 }
 ::v-deep .my-tabs__body {
     height: 45vh;
+    padding: 5px;
 }
-::v-deep .my-tabs__body {
-    padding: 0;
-}
+// ::v-deep .my-tabs__body {
+//     padding: 0;
+// }
 </style>

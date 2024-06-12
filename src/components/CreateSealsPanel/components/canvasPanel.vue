@@ -1,6 +1,6 @@
 <template>
     <div class="canvasPanelMain">
-        <div>
+        <div class="main">
             <el-row>
                 <el-col :span="24">
                     <div class="grid-content bg-purple-dark">
@@ -17,8 +17,27 @@
                         >
                             <canvas
                                 ref="sealCanvas"
-                                width="400"
-                                height="400"
+                                :style="{
+                                    width:
+                                        size == 160
+                                            ? '160px'
+                                            : size == 320
+                                            ? '200px'
+                                            : size == 480
+                                            ? '220px'
+                                            : '',
+                                    height:
+                                        size == 160
+                                            ? '160px'
+                                            : size == 320
+                                            ? '200px'
+                                            : size == 480
+                                            ? '220px'
+                                            : ''
+                                }"
+                                :width="size"
+                                :height="size"
+                                :key="key"
                             ></canvas>
                         </my-watermark>
                     </div>
@@ -32,51 +51,120 @@
 export default {
     data() {
         return {
-            text: ['水印1', '水印2', '水印3']
+            text: ['水印1', '水印2', '水印3'],
+            key: 0
+        }
+    },
+    props: {
+        size: {
+            type: Number,
+            default: 160
+        }
+    },
+    watch: {
+        size(val) {
+            this.drawSeal()
         }
     },
     methods: {
         drawSeal() {
-            const canvas = this.$refs.sealCanvas
-            const ctx = canvas.getContext('2d')
-            const centerX = canvas.width / 2
-            const centerY = canvas.height / 2
-            const radius = centerY - 10
+            this.$nextTick(() => {
+                const canvas = this.$refs.sealCanvas
+                const ctx = canvas.getContext('2d')
+                const centerX = canvas.width / 2
+                const centerY = canvas.height / 2
+                const radius = centerY - 10
+                // const radius = centerY
+                // console.log(canvas.width, canvas.height)
 
-            // 绘制外圆
-            ctx.beginPath()
-            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI)
-            ctx.strokeStyle = 'red'
-            ctx.lineWidth = 5
-            ctx.stroke()
+                // 绘制外圆
+                ctx.beginPath()
+                ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI)
+                ctx.strokeStyle = 'red'
+                ctx.lineWidth =
+                    this.size === 160
+                        ? 4
+                        : this.size === 320
+                        ? 5
+                        : this.size === 480
+                        ? 7
+                        : ''
+                ctx.stroke()
 
-            // 绘制内圆
-            ctx.beginPath()
-            ctx.arc(centerX, centerY, radius - 20, 0, 2 * Math.PI)
-            ctx.stroke()
+                // 绘制内圆
+                ctx.beginPath()
+                ctx.arc(
+                    centerX,
+                    centerY,
+                    this.size === 160
+                        ? radius - 5
+                        : this.size === 320
+                        ? radius - 7
+                        : this.size === 480
+                        ? radius - 9
+                        : 0,
+                    0,
+                    2 * Math.PI
+                )
+                ctx.lineWidth =
+                    this.size === 160
+                        ? 2
+                        : this.size === 320
+                        ? 3
+                        : this.size === 480
+                        ? 4
+                        : ''
+                ctx.stroke()
 
-            // 绘制五角星
-            const starRadius = 50
-            this.drawStar(
-                ctx,
-                centerX,
-                centerY,
-                5,
-                starRadius,
-                starRadius / 2.5,
-                'red'
-            )
+                // 绘制五角星
+                const starRadius =
+                    this.size === 160
+                        ? 20
+                        : this.size === 320
+                        ? 40
+                        : this.size === 480
+                        ? 60
+                        : ''
+                this.drawStar(
+                    ctx,
+                    centerX,
+                    centerY,
+                    5,
+                    starRadius,
+                    starRadius / 2.5,
+                    'red'
+                )
 
-            // 绘制顶部弧形文字
-            const topText = 'xxx科技有限公司'
-            this.drawArcText(ctx, topText, centerX, centerY, radius - 30)
+                // 绘制顶部弧形文字
+                const topText = 'xxx科技有限公司'
+                this.drawArcText(ctx, topText, centerX, centerY, radius - 30)
 
-            // 绘制底部直线文字
-            const bottomText = '专用章'
-            ctx.font = 'bold 24px Arial'
-            ctx.textAlign = 'center'
-            ctx.fillStyle = 'red'
-            ctx.fillText(bottomText, centerX, centerY + radius - 60)
+                // 绘制底部直线文字
+                const bottomText = '专用章'
+                // ctx.font = 'bold 24px Arial'
+                ctx.font =
+                    this.size === 160
+                        ? 'bold 15px 宋体'
+                        : this.size === 320
+                        ? 'bold 30px 宋体'
+                        : this.size === 480
+                        ? 'bold 45px 宋体'
+                        : ''
+                ctx.textAlign = 'center'
+                ctx.fillStyle = 'red'
+                ctx.fillText(
+                    bottomText,
+                    centerX,
+                    this.size === 160
+                        ? centerY + 50
+                        : this.size === 320
+                        ? centerY + 110
+                        : this.size === 480
+                        ? centerY + 180
+                        : 0
+                )
+            })
+            this.key++
         },
         drawStar(ctx, cx, cy, spikes, outerRadius, innerRadius, color) {
             let rot = (Math.PI / 2) * 3
@@ -106,7 +194,15 @@ export default {
             ctx.fill()
         },
         drawArcText(ctx, text, centerX, centerY, radius) {
-            ctx.font = 'bold 22px 宋体'
+            // ctx.font = 'bold 22px 宋体'
+            ctx.font =
+                this.size === 160
+                    ? 'bold 20px 宋体'
+                    : this.size === 320
+                    ? 'bold 40px 宋体'
+                    : this.size === 480
+                    ? 'bold 60px 宋体'
+                    : ''
             ctx.textAlign = 'center'
             ctx.fillStyle = 'red'
 
@@ -132,10 +228,17 @@ export default {
                     text[i],
                     centerX,
                     centerY,
-                    radius - 15,
+                    this.size === 160
+                        ? radius + 5
+                        : this.size === 320
+                        ? radius - 15
+                        : this.size === 480
+                        ? radius - 35
+                        : '',
                     angle
                 )
             }
+            // radius+5 -15 - 35
         },
         drawCharacter(ctx, char, centerX, centerY, radius, angle) {
             ctx.save()
@@ -158,14 +261,20 @@ export default {
     width: 100%;
     height: 100%;
     border-radius: 10px;
+    .main {
+        width: 100%;
+        height: 100%;
+    }
 }
 .el-row {
     margin-bottom: 20px;
+    height: 100%;
     &:last-child {
         margin-bottom: 0;
     }
 }
 .el-col {
+    height: 100%;
     border-radius: 10px;
 }
 .bg-purple-dark {
@@ -183,7 +292,8 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: calc(45vh);
+    // background: red;
     .my-watermark {
         display: flex;
         justify-content: center;

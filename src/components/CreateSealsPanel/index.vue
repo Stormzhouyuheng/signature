@@ -8,12 +8,12 @@
             </el-col>
             <el-col :span="16">
                 <div class="operatePanel">
-                    <TabsPanel />
+                    <TabsPanel @currentSize="currentSize"/>
                 </div>
             </el-col>
             <el-col :span="8">
                 <div class="operatePanel">
-                    <CanvasPanel />
+                    <CanvasPanel :size="size"/>
                 </div>
             </el-col>
         </el-row>
@@ -25,11 +25,18 @@ import CanvasPanel from './components/canvasPanel.vue'
 import TabsPanel from './components/tabsPanel.vue'
 export default {
     data() {
-        return {}
+        return {
+            size: 480 // 160 320 480
+        }
     },
     components: {
         CanvasPanel,
         TabsPanel
+    },
+    methods: {
+        currentSize(data) {
+            this.size = data
+        }
     }
 }
 </script>
@@ -60,6 +67,5 @@ export default {
     border-radius: 10px;
     border: 3px dashed orange;
     height: 50vh;
-    // overflow-y: auto;
 }
 </style>
